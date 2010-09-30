@@ -13,27 +13,28 @@ import string
 import random
 import codecs
 
-tree = """  <top-tree top-tree-id="1">
-      <tree-level1>
-       <tree-level2>
-        <tree-level3>
-         <tree-level4>
-          <tree-level5>
-           <text-node1>text1</text-node1>
-           <subtext1>
-            <text-node2>text2
-            </text-node2>
-            </subtext1>
-           <text-node3>text3</text-node3>
-           <text-node4>text4</text-node4>
-           <text-node5>text5</text-node5>
-           </append-node>
-         </tree-level5>
-         </tree-level4>
-        </tree-level3>
-       </tree-level2>
-      </tree-level1>
-    </top-tree>\n"""
+ 
+tree="""<top-tree top-level-id="ID">
+<tree-level1>
+<tree-level2>
+<tree-level3>
+<tree-level4>
+<tree-level5>
+<text-node1>text1</text-node1>
+<sub-text>
+<text-node2>text2
+</text-node2>
+</sub-text>
+<text-node3>text3</text-node3>
+<text-node4>text4</text-node4>
+<text-node5>text5</text-node5>
+</append-node>
+</tree-level5>
+</tree-level4>
+</tree-level3>
+</tree-level2>
+</tree-level1>
+</top-tree>\n"""
 
 
 elements = [ "address","selector","name","location","organization",
@@ -116,18 +117,18 @@ def main():
 
    while produced_bytes < requested_bytes:
 
-      current = tree.replace( "\"1\"", 
-                     "\"" + str( index ) + "\"" )
+      current = tree.replace( "ID", str( index ) )
 
       current = get_randomized_tree_text( current )
 
       if index % 8 == 0:
-         randomized_tree = get_randomized_tree( current )
-         out.write( randomized_tree )
-         produced_bytes = produced_bytes + len( current )
-      else:      
-         out.write( current )
-         produced_bytes = produced_bytes + len( current )
+         current = get_randomized_tree( current )
+
+      if options.depth > 1:
+         current = append_tree( current, index, options.depth - 1 )
+         
+      out.write( current );
+      produced_bytes = produced_bytes + len( current )
 
       index = index + 1
 
@@ -142,15 +143,26 @@ def get_randomized_tree_text( original ):
    for i in range(1,6):
       new_text = words[ random.randint( 0, len( words ) - 1 ) ]
       old_text =  "text" + str( i )
-      print old_text + " " + new_text
       original = original.replace( old_text, new_text )
    
    return original
 
+#
+#
+#
+def append_tree( original_tree, index, depth ):
 
-def get_append_tree( depth, id ):
-   return ""
-   
+    current = tree.replace( "ID",  str( index ) + "-" + str( depth ) ) 
+    current =  get_randomized_tree_text( current )
+
+    if depth > 1:
+       current =  append_tree( current, index, depth - 1 )
+
+    original_tree = original_tree.replace ( "</append-node>", current )
+    return original_tree
+#
+#
+#
 def get_randomized_tree( original ):
    
    element_index = random.randint( 1,5 )
