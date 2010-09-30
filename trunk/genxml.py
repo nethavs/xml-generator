@@ -28,7 +28,7 @@ tree="""<top-tree top-level-id="ID">
 <text-node3>text3</text-node3>
 <text-node4>text4</text-node4>
 <text-node5>text5</text-node5>
-</append-node>
+<append-node/>
 </tree-level5>
 </tree-level4>
 </tree-level3>
@@ -158,7 +158,7 @@ def append_tree( original_tree, index, depth ):
     if depth > 1:
        current =  append_tree( current, index, depth - 1 )
 
-    original_tree = original_tree.replace ( "</append-node>", current )
+    original_tree = original_tree.replace ( "<append-node/>", current )
     return original_tree
 #
 #
