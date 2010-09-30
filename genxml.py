@@ -94,7 +94,9 @@ def main():
                       " gigabyte or 0.5 for half a megabyte."
                       " Default size is 0.5 MB" )
    parser.add_option( "-r", "--random-structure", action="store_true",
-                      dest="random_structure", default=False )
+                      dest="random_structure", default=False,
+                      help="""Random structure creates the xml with some
+                           randomly chosen, but valid element names""" )
 
    parser.add_option( "-d", "--depth", type="int",
                       dest="depth", default=1 )
