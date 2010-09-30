@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+#labels Design
+
+== Design Actions ==
+
+* Add command line options
+
+* Allow for generation of XML of random element structure of of sequenced element structure
+
+* Organize the methods
+
+* Fix the docstring
