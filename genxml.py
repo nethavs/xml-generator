@@ -109,10 +109,23 @@ def main():
    out.write( "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" )
    out.write( "<root>\n" )
    
+   index = 1
+
    while produced_bytes < requested_bytes:
-      out.write( tree )
-      produced_bytes = produced_bytes + len( tree )
-   
+
+      current = tree.replace( "\"1\"", 
+                     "\"" + str( index ) + "\"" )
+
+      if index % 8 == 0:
+         randomized_tree = get_randomized_tree_text( current )
+         out.write( randomized_tree )
+         produced_bytes = produced_bytes + len( current )
+      else:      
+         out.write( current )
+         produced_bytes = produced_bytes + len( current )
+
+      index = index + 1
+
    out.write( "</root>" )
    out.close()
 
@@ -122,8 +135,15 @@ def main():
 def get_randomized_tree():
    return ""
    
-def get_randomized_tree_text():
-   return ""
+def get_randomized_tree_text( original ):
+   
+   element_index = random.randint( 1,5 )
+   element_name = "tree-level" + str( element_index) 
+   
+   new_element = elements[ random.randint( 0, len( elements ) - 1 ) ]
+    
+   new_tree = original.replace( element_name, new_element )
+   return new_tree
 
 if __name__ == "__main__":
    main()
