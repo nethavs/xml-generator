@@ -26,7 +26,7 @@ tree = """  <top-tree top-tree-id="1">
             </subtext1>
            <text-node3>text3</text-node3>
            <text-node4>text4</text-node4>
-           <text-node5>text3</text-node5>
+           <text-node5>text5</text-node5>
            </append-node>
          </tree-level5>
          </tree-level4>
@@ -95,6 +95,9 @@ def main():
    parser.add_option( "-r", "--random-structure", action="store_true",
                       dest="random_structure", default=False )
 
+   parser.add_option( "-d", "--depth", type="int",
+                      dest="depth", default=1 )
+
    (options, args) = parser.parse_args()
 
    out = open( options.output, "w" )
@@ -116,8 +119,10 @@ def main():
       current = tree.replace( "\"1\"", 
                      "\"" + str( index ) + "\"" )
 
+      current = get_randomized_tree_text( current )
+
       if index % 8 == 0:
-         randomized_tree = get_randomized_tree_text( current )
+         randomized_tree = get_randomized_tree( current )
          out.write( randomized_tree )
          produced_bytes = produced_bytes + len( current )
       else:      
@@ -129,13 +134,24 @@ def main():
    out.write( "</root>" )
    out.close()
 
-# Creates random text node
+# Creates a tree with randomly chosen words for
+# text nodes
 #
-#
-def get_randomized_tree():
+def get_randomized_tree_text( original ):
+ 
+   for i in range(1,6):
+      new_text = words[ random.randint( 0, len( words ) - 1 ) ]
+      old_text =  "text" + str( i )
+      print old_text + " " + new_text
+      original = original.replace( old_text, new_text )
+   
+   return original
+
+
+def get_append_tree( depth, id ):
    return ""
    
-def get_randomized_tree_text( original ):
+def get_randomized_tree( original ):
    
    element_index = random.randint( 1,5 )
    element_name = "tree-level" + str( element_index) 
