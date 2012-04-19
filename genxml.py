@@ -3,8 +3,7 @@
 # Script for generation of XML documents of 
 # user specified size and element nesting depth
 #
-# author: Edmon Begoli
-#
+__author__ = 'Edmon Begoli'
 from xml.dom.minidom import Document
 from optparse import OptionParser
 
